@@ -1,6 +1,5 @@
 package main
 import (
-	"fmt"
 	"net/http"
 	"encoding/json"
 	"todo_api_golang/data"
@@ -9,12 +8,23 @@ import (
 type TodoItemList struct{
 	TodoItems [] data.TodoItem 
 }
-func Post(writer http.ResponseWriter, request *http.Request){
-	
-	// fmt.Fprintf(writer,"%s!",request.URL.Path[1:])
+
+func post(writer http.ResponseWriter, request *http.Request){
+	len := request.ContentLength
+	body := make([]byte,len)
+	request.Body.Read(body)
+	var todoItem data.TodoItem
+	json.Unmarshal(body,&todoItem)
+	log.Println(todoItem)
+	err := todoItem.Create()
+	if err != nil{
+		log.Fatal(err)
+		return
+	}
+	writer.WriteHeader(200)
 	return
 }
-func GetAll(writer http.ResponseWriter,request *http.Request){
+func getAll(writer http.ResponseWriter,request *http.Request){
 	todoItems,err := data.GetAllTodo()
 	if err !=nil{
 		log.Fatal(err)
@@ -48,20 +58,33 @@ func getImportantItem(writer http.ResponseWriter,request *http.Request){
 	writer.Header().Set("Content-Type","application/json")
 	writer.Write(output)
 }
-func updateIsDone(writer http.ResponseWriter,request *http.Request){
-	fmt.Fprintf(writer, "UPDATE IS DONE")
+func delete(writer http.ResponseWriter,request *http.Request){
+	len := request.ContentLength
+	body := make([]byte,len)
+	request.Body.Read(body)
+	var todoItem data.TodoItem
+	json.Unmarshal(body,&todoItem)
+	log.Println(todoItem)
+	err := todoItem.DeleteTodoItem()
+	if err !=nil{
+		log.Fatal(err)
+		return
+	}
+	writer.WriteHeader(200)
+	return
 }
 func updateImportant(writer http.ResponseWriter,request *http.Request){
-	fmt.Fprintf(writer, "UPDATE IMPORTANT")
-}
-func main(){
-	server := http.Server{
-		Addr:"localhost:8000",
+	len := request.ContentLength
+	body := make([]byte,len)
+	request.Body.Read(body)
+	var todoItem data.TodoItem
+	json.Unmarshal(body,&todoItem)
+	log.Println(todoItem)
+	err := todoItem.UpdateIsImportant()
+	if err !=nil{
+		log.Fatal(err)
+		return
 	}
-	http.HandleFunc("/post",Post);
-	http.HandleFunc("/get/all",GetAll);
-	http.HandleFunc("/get/important",getImportantItem);
-	http.HandleFunc("/update/is_done",updateIsDone);
-	http.HandleFunc("/update/important",updateImportant);
-	server.ListenAndServe()
+	writer.WriteHeader(200)
+	return
 }

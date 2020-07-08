@@ -1,0 +1,2 @@
+curl -i -X POST -H "Content-Type: application/json" -d '{"Title":"sample"}' http://localhost:8000/post
+curl -i -X POST -H "Content-Type: application/json" -d '{"Id":7}' http://localhost:8000/delete

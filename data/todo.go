@@ -19,7 +19,7 @@ func (todoItem *TodoItem) Create() (err error) {
 		return
 	}
 	defer stmt.Close()
-	 stmt.Exec(todoItem.Title)
+	stmt.Exec(todoItem.Title)
 	return
 }
 func (todoItem *TodoItem) UpdateIsImportant() (err error){
