@@ -1,7 +1,9 @@
 package data
 import (
 	"time"
+	"log"
 	_ "github.com/go-sql-driver/mysql"
+	
 )
 type TodoItem struct {
 	Id          int
@@ -44,6 +46,7 @@ func GetAllTodo() (todoItems []TodoItem,err error){
 	selectTodoQuery := "select * from todo"
 	rows,err := Db.Query(selectTodoQuery)
 	if err != nil{
+		log.Println(err)
 		return
 	}
 	for rows.Next(){
@@ -71,7 +74,4 @@ func GetImportantTodo() (todoItems []TodoItem, err error){
 	}
 	rows.Close()
 	return
-}
-func main(){
-	GetAllTodo()
 }

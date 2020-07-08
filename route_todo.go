@@ -16,17 +16,37 @@ func Post(writer http.ResponseWriter, request *http.Request){
 }
 func GetAll(writer http.ResponseWriter,request *http.Request){
 	todoItems,err := data.GetAllTodo()
+	if err !=nil{
+		log.Fatal(err)
+		return
+	}
 	log.Println(todoItems)
 	todoItemList := TodoItemList{TodoItems:todoItems}
 	output,err:=json.MarshalIndent(&todoItemList,"","")
 	if err !=nil{
+		log.Fatal(err)
 		return
 	}
+	log.Println(output)
 	writer.Header().Set("Content-Type","application/json")
 	writer.Write(output)
 }
 func getImportantItem(writer http.ResponseWriter,request *http.Request){
-	fmt.Fprintf(writer,"GET IMPORTANT ITEM")
+	todoItems,err := data.GetImportantTodo()
+	log.Println(todoItems)
+	if err != nil{
+		log.Fatal(err)
+		return
+	}
+	todoItemList := TodoItemList{TodoItems:todoItems}
+	output,err := json.MarshalIndent(&todoItemList,"","")
+	if err != nil{
+		log.Fatal(err)
+		return
+	}
+	log.Println(output)
+	writer.Header().Set("Content-Type","application/json")
+	writer.Write(output)
 }
 func updateIsDone(writer http.ResponseWriter,request *http.Request){
 	fmt.Fprintf(writer, "UPDATE IS DONE")
