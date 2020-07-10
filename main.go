@@ -5,11 +5,11 @@ import (
 func main(){
 	
 	// mux := http.NewServeMux()
-	http.HandleFunc("/post",post);
-	http.HandleFunc("/get/all",getAll);
-	http.HandleFunc("/get/important",getImportantItem);
-	http.HandleFunc("/delete",delete);
-	http.HandleFunc("/update/important",updateImportant);
+	http.HandleFunc("/post",postTodo);
+	http.HandleFunc("/get/all",getAllTodo);
+	http.HandleFunc("/get/important",getImportantTodo);
+	http.HandleFunc("/delete",deleteTodo);
+	http.HandleFunc("/update/important",updateImportantTodo);
 	server := http.Server{
 		Addr:"localhost:8000",
 	}

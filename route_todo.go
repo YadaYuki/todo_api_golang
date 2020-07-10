@@ -9,7 +9,7 @@ type TodoItemList struct{
 	TodoItems [] data.TodoItem 
 }
 
-func post(writer http.ResponseWriter, request *http.Request){
+func postTodo(writer http.ResponseWriter, request *http.Request){
 	len := request.ContentLength
 	body := make([]byte,len)
 	request.Body.Read(body)
@@ -24,7 +24,7 @@ func post(writer http.ResponseWriter, request *http.Request){
 	writer.WriteHeader(200)
 	return
 }
-func getAll(writer http.ResponseWriter,request *http.Request){
+func getAllTodo(writer http.ResponseWriter,request *http.Request){
 	todoItems,err := data.GetAllTodo()
 	if err !=nil{
 		log.Fatal(err)
@@ -41,7 +41,7 @@ func getAll(writer http.ResponseWriter,request *http.Request){
 	writer.Header().Set("Content-Type","application/json")
 	writer.Write(output)
 }
-func getImportantItem(writer http.ResponseWriter,request *http.Request){
+func getImportantTodo(writer http.ResponseWriter,request *http.Request){
 	todoItems,err := data.GetImportantTodo()
 	log.Println(todoItems)
 	if err != nil{
@@ -58,7 +58,7 @@ func getImportantItem(writer http.ResponseWriter,request *http.Request){
 	writer.Header().Set("Content-Type","application/json")
 	writer.Write(output)
 }
-func delete(writer http.ResponseWriter,request *http.Request){
+func deleteTodo(writer http.ResponseWriter,request *http.Request){
 	len := request.ContentLength
 	body := make([]byte,len)
 	request.Body.Read(body)
@@ -73,7 +73,7 @@ func delete(writer http.ResponseWriter,request *http.Request){
 	writer.WriteHeader(200)
 	return
 }
-func updateImportant(writer http.ResponseWriter,request *http.Request){
+func updateImportantTodo(writer http.ResponseWriter,request *http.Request){
 	len := request.ContentLength
 	body := make([]byte,len)
 	request.Body.Read(body)
